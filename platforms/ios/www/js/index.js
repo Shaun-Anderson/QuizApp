@@ -28,6 +28,8 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+        GetQuizData();
+        // Get the button, and when the user clicks on it, execute myFunction
     },
 
     // Update DOM on a Received Event
@@ -41,6 +43,14 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+
+  /*  var divGD = ons.GestureDetector(document.querySelector('#my-div'));
+    divGD.on('dragup dragdown', function(event) {
+      console.log('drag Y axis');
+    });*/
+
+      
+
 };
 
 app.initialize();
