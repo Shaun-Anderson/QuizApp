@@ -35,16 +35,28 @@
         <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
         <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
         <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
 
         <title>Hello World</title>
     </head>
     <body>
- <ons-page ng-controller="DynamicCarouselController">
-   <script type="text/javascript" src="js/index.js"></script>
+      <script type="text/javascript" src="js/Helpers.js"></script>
 
-      <ons-list id="quizList">
-        <ons-list-item>hi</ons-list-item>
-    </ons-list>
-  </ons-page>
+      //Question
+      <div style="text-align: center; height: 50px;" id="question">Question</div>
+      //Answer
+       <div style="text-align: center;" class="content-padded" ng-controller="ButtonsController" id="answerSection">
+         <ons-button style="height:150px;width:125px;back" id="Question1">Answer1</ons-button>
+         <ons-button style="height:150px;width:125px">Answer2</ons-button>
+         <ons-button style="height:150px;width:125px">Answer3</ons-button>
+         <button class="answerButton" style="height:150px;width:125px;">Answer4</button>
+       </div>
+       <div style="text-align: center">
+         <ons-button style="height:50px;width:125px">Next</ons-button>
+       </div>
+
+        <ons-button id="Hello" onclick="GetQuizData()"> hi </ons-button>
+
+        <input type="text" class="text-input" ng-model="text" placeholder="Type here" style="display: block; width: 100%">
     </body>
 </html>

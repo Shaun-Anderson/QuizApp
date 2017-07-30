@@ -1,4 +1,5 @@
-[
+{
+"Quizzes":[
   {
 	"id": "quiz01",
 	"title": "Mood Survey",
@@ -29,3 +30,4 @@
 	]
   }
 ]
+}

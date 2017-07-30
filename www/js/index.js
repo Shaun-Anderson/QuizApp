@@ -28,7 +28,13 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
-        GetQuizData();
+        if( isAndroid() ) {
+     var matches = device.version.match( /[0-9]+(\.[0-9]+)?/i );
+
+     if( matches.length && parseFloat( matches[ 0 ] ) < 4.2 ) {
+         document.body.style.zoom = 1 / window.devicePixelRatio;
+     }
+ }
         // Get the button, and when the user clicks on it, execute myFunction
     },
 
@@ -49,8 +55,41 @@ var app = {
       console.log('drag Y axis');
     });*/
 
-      
+
 
 };
 
 app.initialize();
+LoadQuizzes();
+function isAndroid() {
+    if( device.platform.match( /android/i ) ) {
+        return true;
+    }
+
+    return false;
+}
+
+function LoadQuizzes()
+{
+  $.getJSON('json/quizzes_sample.json',function(data)
+  {
+     //question.innerHTML = "data.Quizzes";
+
+
+      $.each(data.Quizzes,function(i,emp){
+        var onsItem= document.createElement('ons-list-item');
+             onsItem.setAttribute('modifier', "chevron");
+             onsItem.setAttribute('onclick', "goToMain()");
+             onsItem.innerHTML = onsItem.innerHTML + emp.title;
+      document.getElementById('quizList').appendChild(onsItem);
+      });
+  }).fail(function(){
+    document.getElementById("question").innerHTML = "error";
+      console.log('error');
+  });
+}
+
+function goToMain()
+{
+   window.location = "main.html";
+}
