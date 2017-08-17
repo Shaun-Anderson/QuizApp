@@ -9,7 +9,17 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.swander.QuizApp"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "com.swander.QuizApp"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.swander.QuizApp"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.swander.QuizApp"
+        }
+    }
 }

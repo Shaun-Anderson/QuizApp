@@ -1,0 +1,32 @@
+body {
+    height:100%;
+    margin:0px;
+    padding:0px;
+    width:100%;
+}
+
+.signInButton{
+  margin: auto;
+  background-color: #41C9C9;
+  border: none;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-weight: bold;
+  font-size: 2vh;
+  width: 90%;
+
+
+}
+
+.signUpButton {
+    font-size: 2vh;
+    margin: auto;
+    display: block;
+    margin-bottom:50%;
+    color: #4CAF50;
+    font-weight: bold;
+
+    background-color: Transparent;
+    border-radius: 3px;
+    border: 2px solid #4CAF50; /* Green */
+}

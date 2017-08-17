@@ -23,19 +23,9 @@ var app = {
     },
 
     // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
-        if( isAndroid() ) {
-     var matches = device.version.match( /[0-9]+(\.[0-9]+)?/i );
-
-     if( matches.length && parseFloat( matches[ 0 ] ) < 4.2 ) {
-         document.body.style.zoom = 1 / window.devicePixelRatio;
-     }
- }
-        // Get the button, and when the user clicks on it, execute myFunction
+        LoadQuizzes();
     },
 
     // Update DOM on a Received Event
@@ -49,37 +39,25 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
-
-  /*  var divGD = ons.GestureDetector(document.querySelector('#my-div'));
-    divGD.on('dragup dragdown', function(event) {
-      console.log('drag Y axis');
-    });*/
-
-
-
 };
 
 app.initialize();
 LoadQuizzes();
-function isAndroid() {
-    if( device.platform.match( /android/i ) ) {
-        return true;
-    }
-
-    return false;
-}
 
 function LoadQuizzes()
 {
-  $.getJSON('json/quizzes_sample.json',function(data)
+//introtoapps.com/datastore.php?action=list&appid=214098128
+  $.getJSON('http://introtoapps.com/quizzes_sample.json',function(data)
   {
+    console.log(data);
      //question.innerHTML = "data.Quizzes";
 
 
       $.each(data.Quizzes,function(i,emp){
         var onsItem= document.createElement('ons-list-item');
              onsItem.setAttribute('modifier', "chevron");
-             onsItem.setAttribute('onclick', "goToMain()");
+             onsItem.setAttribute('style',"background-color:#FFF09B")
+             onsItem.setAttribute('onclick', "goToMain("+i+")");
              onsItem.innerHTML = onsItem.innerHTML + emp.title;
       document.getElementById('quizList').appendChild(onsItem);
       });
@@ -88,8 +66,9 @@ function LoadQuizzes()
       console.log('error');
   });
 }
-
-function goToMain()
+//Move to main.html and save the quiz number to be used when accessing it later
+function goToMain(pos)
 {
    window.location = "main.html";
+   localStorage.setItem("_quizNum",pos);
 }
