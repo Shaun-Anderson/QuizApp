@@ -25,10 +25,8 @@ function InitQuiz()
       quizArray = data.Quizzes[quizNum];
       var percent = questionNum/quizArray.questions.length * 100;
       var percentBar = document.getElementById('myBar');
-      console.log(percent);
       percentBar.style.width = percent + "%";
 
-      console.log(quizArray);
       //Set the question text
       question.innerHTML = '<span style="width: 90%; height: 100%;font-size: 4vh; margin-top: 5%; display: block; color:#DAF7A6">'+findId(quizArray, questionNum)+'</span>';
       //Switch statement that builds the UI depending on the type of question
@@ -126,8 +124,8 @@ function EndScreen()
   questionNum += 1;
   var percent = questionNum/quizArray.questions.length * 100;
   var percentBar = document.getElementById('myBar');
-  console.log(percent);
   percentBar.style.width = percent + "%";
+
   //Clear former values
   question.innerHTML = "";
   document.getElementById('answerSection').innerHTML ="";
@@ -136,14 +134,16 @@ function EndScreen()
   scoreText.setAttribute('style', "width:100%;height:20%;font-size:5vh");
   scoreText.innerHTML = "<b>COMPLETE</b><br><br><b>SCORE: </b>" + score + "<br>";
   document.getElementById('answerSection').appendChild(scoreText);
+  // TODO: ADD SAVING DATA TO THE DB
 
-    var onsItem= document.createElement('button');
-      onsItem.setAttribute('class', "button1");
-      onsItem.setAttribute('id', "returnbutton");
-      onsItem.setAttribute('onclick',"ReturnToMenu();");
-      onsItem.setAttribute('style',"margin-top:10%");
-       onsItem.innerHTML = "BACK TO MENU";
-       document.getElementById('answerSection').appendChild(onsItem);
+
+  var onsItem= document.createElement('button');
+  onsItem.setAttribute('class', "button1");
+  onsItem.setAttribute('id', "returnbutton");
+  onsItem.setAttribute('onclick',"ReturnToMenu();");
+  onsItem.setAttribute('style',"margin-top:10%");
+  onsItem.innerHTML = "BACK TO MENU";
+  document.getElementById('answerSection').appendChild(onsItem);
 }
 
 function ValidateTextbox()
@@ -272,7 +272,6 @@ function Build_SlidingOption(){
   $.each(quizArray.questions[questionNum].options,function(i,emp){
     thisText = emp;
     amount = i;
-    console.log(amount);
 
     emoticon = quizArray.questions[questionNum].optionVisuals[i];
     html += "<ons-carousel-item id= answer"+i+"><div style='font-size:5vh;text-align: center;vertical-align: middle;'>" +emoticon+ "<br>" + thisText +"</div></ons-carousel-item>";
@@ -283,6 +282,5 @@ function Build_SlidingOption(){
     for(i = 0; i <=amount;i++){
       var ele = document.getElementById('answer' + i);
       ele.setAttribute('onclick', "NextQuestion()");
-      console.log(ele);
     }
 }

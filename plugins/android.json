@@ -12,6 +12,9 @@
         },
         "cordova-plugin-media": {
             "PACKAGE_NAME": "com.swander.QuizApp"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.swander.QuizApp"
         }
     },
     "dependent_plugins": {

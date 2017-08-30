@@ -44,7 +44,7 @@ var app = {
 app.initialize();
 LoadQuizzes();
 
-
+const URL_GetQuizzes;
 
 //Load all the quizzes from the json file
 function LoadQuizzes()

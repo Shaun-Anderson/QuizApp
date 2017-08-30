@@ -20,6 +20,9 @@
 		8BD7EE137876420CA889B02C /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 26071E083053499E98B00B4D /* CDVLocalFilesystem.m */; };
 		4FC630C85E4C4D35BCBB0280 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 63163A62BD3E40D7BF851740 /* CDVAssetLibraryFilesystem.m */; };
 		998852941CA44806AE1FCC43 /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D00693FAA54FC3AFE98A0D /* CDVSound.m */; };
+		8FD46601740944328024352B /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD2385766C4EA08949AA1C /* CDVNotification.m */; };
+		CD1E3A371C2C4D1D825472B9 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 17682255C8234CD293BE5D36 /* CDVNotification.bundle */; };
+		E82E9C6D05224F0A87759A2A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E484A7246146C0AEFD7CCD /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +71,10 @@
 		72516A98E88E4908845DE9A8 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; name = "CDVAssetLibraryFilesystem.h"; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		82D00693FAA54FC3AFE98A0D /* CDVSound.m */ = {isa = PBXFileReference; name = "CDVSound.m"; path = "cordova-plugin-media/CDVSound.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		BF358318F84F4C8DBA6911F1 /* CDVSound.h */ = {isa = PBXFileReference; name = "CDVSound.h"; path = "cordova-plugin-media/CDVSound.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		32BD2385766C4EA08949AA1C /* CDVNotification.m */ = {isa = PBXFileReference; name = "CDVNotification.m"; path = "cordova-plugin-dialogs/CDVNotification.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		FE20199646904B89A5EA5B51 /* CDVNotification.h */ = {isa = PBXFileReference; name = "CDVNotification.h"; path = "cordova-plugin-dialogs/CDVNotification.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		17682255C8234CD293BE5D36 /* CDVNotification.bundle */ = {isa = PBXFileReference; name = "CDVNotification.bundle"; path = "CDVNotification.bundle"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.plug-in; explicitFileType = undefined; includeInIndex = 0; };
+		53E484A7246146C0AEFD7CCD /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				E82E9C6D05224F0A87759A2A /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +146,7 @@
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* QuizApp-Info.plist */,
 				6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */,
+				17682255C8234CD293BE5D36 /* CDVNotification.bundle */,
 			);
 			name = Resources;
 			path = "QuizApp/Resources";
@@ -146,6 +155,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53E484A7246146C0AEFD7CCD /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,6 +189,8 @@
 				72516A98E88E4908845DE9A8 /* CDVAssetLibraryFilesystem.h */,
 				82D00693FAA54FC3AFE98A0D /* CDVSound.m */,
 				BF358318F84F4C8DBA6911F1 /* CDVSound.h */,
+				32BD2385766C4EA08949AA1C /* CDVNotification.m */,
+				FE20199646904B89A5EA5B51 /* CDVNotification.h */,
 			);
 			name = Plugins;
 			path = "QuizApp/Plugins";
@@ -260,6 +272,7 @@
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
+				CD1E3A371C2C4D1D825472B9 /* CDVNotification.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +308,7 @@
 				8BD7EE137876420CA889B02C /* CDVLocalFilesystem.m in Sources */,
 				4FC630C85E4C4D35BCBB0280 /* CDVAssetLibraryFilesystem.m in Sources */,
 				998852941CA44806AE1FCC43 /* CDVSound.m in Sources */,
+				8FD46601740944328024352B /* CDVNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
