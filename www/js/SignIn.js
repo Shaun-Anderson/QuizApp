@@ -1,6 +1,7 @@
 document.onload = CreateSignIn();
 
-
+var Users;
+var _username;
 //Create the sign in UI
 function CreateSignIn(){
   var onsItem= document.createElement('input');
@@ -36,32 +37,59 @@ function CreateSignIn(){
 
 function CheckSignUp()
 {
-  var username = document.getElementById('usernameInput').value;
-  var password = document.getElementById('passwordInput').value;
+  _username = document.getElementById('usernameInput').value;
+  var _password = document.getElementById('passwordInput').value;
 
   //Simple check if nothing is entered in either input
-  if(username == "" || password == "")
+  if(_username == "" || _password == "")
   {
     return null;
   }
-  //If User doesnt already exist Create a new user with the username and password entered
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-      {
-        console.log("Created New User");
-      }
-  }
-  xmlHttp.open("GET",  'http://introtoapps.com/datastore.php?action=save&appid=12345678&objectid=Users&data={%22username%22:'+ username +',%22password%22:'+ password +'}', true);
-  xmlHttp.send();
+
+  var UserObject = {
+    Users : []
+  };
 
   //Get list of Users and check if the username is currently being used by a user
-  $.getJSON('http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=Users',function(data)
+  $.getJSON('http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users',function(data)
   {
+    console.log("USER DATA EXISTS");
+    console.log(data);
+
+    Users = data.Users;
+    if(CheckUsername())
+    {
+          UserObject = data;
+          UserObject.Users.push({
+              "username" : _username,
+              "password"  : _password
+          });
+
+          var jsonData = JSON.stringify(UserObject);
+          var xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() {
+              if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+              {
+              console.log("ADDED USER" + _username);
+              }
+          }
+          xmlHttp.open("GET",  "http://introtoapps.com/datastore.php?action=append&appid=214098128&objectid=users&data=" + encodeURIComponent(jsonData), true);
+          xmlHttp.send();
+    }
 
   }).fail(function(){
-    document.getElementById("question").innerHTML = "error";
-      console.log('error');
+      console.log('ERROR');
+
+      var jsonData = JSON.stringify(UserObject);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          {
+          console.log("Created ");
+          }
+      }
+      xmlHttp.open("GET",  "http://introtoapps.com/datastore.php?action=save&appid=214098128&objectid=users&&data=" + encodeURIComponent(jsonData), true);
+      xmlHttp.send();
   });
 }
 
@@ -79,4 +107,16 @@ function goToMain(pos)
 {
    window.location = "index.html";
    localStorage.setItem("_quizNum",pos);
+}
+
+function CheckUsername()
+{
+  for (var i = 0; i < Users.length; i++) {
+    if(Users[i].username == _username)
+    {
+      console.log(Users[i].username + " -NAME EXISTS- " + _username);
+      return false;
+    }
+  }
+  return true;
 }
