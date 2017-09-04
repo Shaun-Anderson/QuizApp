@@ -5,9 +5,14 @@ document.onload = CreateSignIn();
 var Users;
 var _username;
 var inputPassword;
+var userNum;
 //URL consts
-const String URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
-const String URL_AddUserPrefix = 'http://introtoapps.com/datastore.php?action=append&appid=214098128&objectid=users&data=';
+var URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
+var URL_AddUserPrefix = 'http://introtoapps.com/datastore.php?action=append&appid=214098128&objectid=users&data=';
+
+var UserObject = {
+  Users : []
+};
 
 //Create the sign in UI
 function CreateSignIn(){
@@ -24,6 +29,7 @@ function CreateSignIn(){
   onsItem.setAttribute('ng-model', "text");
   onsItem.setAttribute('id', "passwordInput");
   onsItem.setAttribute('style', "style=display: block; width: 90%; height:20%;text-align:center; background-color: #FFFFFF");
+  onsItem.setAttribute('type',"password");
   onsItem.setAttribute('placeholder',"Password");
   document.getElementById('inputDiv').appendChild(onsItem);
 
@@ -54,9 +60,7 @@ function CheckSignUp()
     return null;
   }
 
-  var UserObject = {
-    Users : []
-  };
+
 
   //Get list of Users and check if the username is currently already in use.
   $.getJSON(URL_GetUsers,function(data)
@@ -71,22 +75,26 @@ function CheckSignUp()
           });
 
           CreateNewUser();
+          goToMain();
     }
 
   }).fail(function(){
       console.log('No data found creating new data');
       CreateNewUser();
+      goToMain();
   });
 }
 
 function CheckSignIn()
 {
+  _username = document.getElementById('usernameInput').value;
+  inputPassword = document.getElementById('passwordInput').value;
   //Get current Users and cycle through usernames to check if it exists if not call dialog saying username not found.
   $.getJSON(URL_GetUsers,function(data)
   {
 
     Users = data.Users;
-    if(CheckUsername())
+    if(!CheckUsername())
     {
       //USERNAME EXISTS
           if(CheckPassword())
@@ -106,16 +114,11 @@ function CheckSignIn()
   }).fail(function(){
       console.log('NO USERS EXIST');
   });
-  }
-  //Check if the password entered is the same as the one for the username.
-
-  //Move to next page
 }
 
-function goToMain(pos)
+function goToMain()
 {
    window.location = "index.html";
-   localStorage.setItem("_quizNum",pos);
 }
 
 function CreateNewUser(){
@@ -131,14 +134,12 @@ function CreateNewUser(){
   xmlHttp.send();
 }
 
-function ErrorMessage(String message){
-
-}
 
 function CheckUsername(){
   for (var i = 0; i < Users.length; i++) {
     if(Users[i].username == _username)
     {
+      userNum = i;
       console.log(Users[i].username + " -NAME EXISTS- " + _username);
       return false;
     }
@@ -147,16 +148,14 @@ function CheckUsername(){
 }
 
 function CheckPassword(){
-  for (var i = 0; i < Users.length; i++) {
-    if(Users[i].password == inputPassword)
+    if(Users[userNum].password == inputPassword)
     {
-      console.log(Users[i].username + " -PASWORD CORRECT- ");
+      console.log(Users[userNum].username + " -PASWORD CORRECT- ");
       return true;
     }
     else {
       //TODO: display password specifc error message
-      console.log(Users[i].username + " -PASWORD WRONG- ");
+      console.log(Users[userNum].username + " -PASWORD WRONG- ");
       return false;
     }
-  }
 }
