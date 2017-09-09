@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ var URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -44,6 +46,9 @@ var app = {
 app.initialize();
 LoadQuizzes();
 
+var UserObject = {
+  Users : []
+};
 //const URL_GetQuizzes;
 
 //Load all the quizzes from the json file
@@ -52,17 +57,31 @@ function LoadQuizzes()
   $.getJSON('json/quizzes_sample.json',function(data)
   {
         $.each(data.Quizzes,function(i,emp){
-        var onsItem= document.createElement('ons-list-item');
+             var onsItem= document.createElement('ons-list-item');
              onsItem.setAttribute('modifier', "chevron");
              onsItem.setAttribute('style',"background-color:#FFF09B")
              onsItem.setAttribute('onclick', "goToMain("+i+")");
              onsItem.innerHTML = onsItem.innerHTML + emp.title;
-      document.getElementById('quizList').appendChild(onsItem);
+             document.getElementById('quizList').appendChild(onsItem);
+
+            //Check if the user has already attempted/completed this quiz
+             $.getJSON(URL_GetUsers,function(data)
+             {
+               console.log(data);
+
+               var userInfo = data.Users[localStorage.getItem("userNum")];
+               console.log(usersInfo);
+
+             })
       });
+
+      console.log('Loaded quizzes for user: ' +  localStorage.getItem("userNum"));
+
   }).fail(function(){
     document.getElementById("question").innerHTML = "error";
       console.log('error');
   });
+
 }
 //Move to main.html and save the quiz number to be used when accessing it later
 function goToMain(pos)

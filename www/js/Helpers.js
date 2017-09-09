@@ -5,11 +5,25 @@ var quizNum = localStorage.getItem("_quizNum");
 var score = 0;
 var quizArray;
 var question;
+var multiAnswer = [];
+
+var Users;
+var userNum;
+
+var UserObject = {
+  Users : []
+};
+
+//URL consts
+var URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
+var URL_AddUserPrefix = 'http://introtoapps.com/datastore.php?action=append&appid=214098128&objectid=users&data=';
+
 
 document.onload = InitQuiz();
 
 function InitQuiz()
 {
+  userNum = localStorage.getItem("userNum");
   score = 0;
   question = document.getElementById("question");
   NextQuestion();
@@ -72,28 +86,114 @@ function InitQuiz()
 
 function CheckAnswer(thisAnswer)
 {
-  var _answer = thisAnswer;
+  var answered = true;
+  console.log(thisAnswer);
+
 
   $.getJSON('json/quizzes_sample.json',function(data)
   {
       if(quizArray.score)
       {
         console.log("SCORE THIS QUIZ");
-        if(thisAnswer == quizArray.questions[questionNum].answer)
+        if(quizArray.questions[questionNum].answer)
         {
-          console.log("CORRECT");
-          if(questionNum +1 == quizArray.questions.length)
+
+          /*Get answer or array of answers depending on the type of question
+          Examples:
+          Multiplechoice needs all in the array to be correct.
+          Textbox can have one or more ways to answer the question.
+          */
+          var answer = quizArray.questions[questionNum].answer;
+          if(answer.constructor === Array)
           {
-            EndScreen();
+            /*
+            * If multiple choice check if the size of the answer array is the size of the set answers array if it then then loop through to check
+            * if the any of the answers are not in the actual answer array.
+            */
+            console.log(quizArray.questions[questionNum].type);
+            switch (quizArray.questions[questionNum].type) {
+              case "multiplechoice":
+
+                  if(answer.length != thisAnswer.length)
+                  for (i = 0; i < answer.length; i++)
+                    {
+                        if(thisAnswer == answer[i])
+                          {
+                              console.log("CORRECT");
+                          }
+                          else
+                          {
+                              console.log("INCORRECT");
+                          }
+                    }
+                break;
+
+                case "textbox":
+                    for (i = 0; i < answer.length; i++)
+                      {
+                          if(thisAnswer == answer[i])
+                            {
+                                answered = true
+                            }
+                      }
+                  break;
+              default:
+
+            }
+
+
+            if(answered)
+            {
+              console.log("CORRECT");
+              score += 1;
+              if(questionNum +1 == quizArray.questions.length)
+              {
+                EndScreen();
+              }
+              else {
+                NextQuestion();
+              }
+            }
+            else {
+              if(questionNum +1 == quizArray.questions.length)
+              {
+                EndScreen();
+              }
+              else {
+                NextQuestion();
+              }
+            }
           }
           else {
-            NextQuestion();
+            console.log("ANSWER NOT ARRAY");
+            if(thisAnswer == answer)
+            {
+              console.log("CORRECT");
+              score += 1;
+              if(questionNum +1 == quizArray.questions.length)
+              {
+                EndScreen();
+              }
+              else {
+                NextQuestion();
+              }
+            }
+            else {
+              console.log("INCORRECT");
+              if(questionNum +1 == quizArray.questions.length)
+              {
+                EndScreen();
+              }
+              else {
+                NextQuestion();
+              }
+            }
           }
         }
         else
         {
-          console.log("INCORRECT");
-          if(questionNum +1== quizArray.questions.length)
+          console.log("QUESTION NOT SCORED");
+          if(questionNum +1 == quizArray.questions.length)
           {
             EndScreen();
           }
@@ -103,7 +203,7 @@ function CheckAnswer(thisAnswer)
         }
       }
       else {
-        console.log("hiiiiiiiii");
+        console.log("QUIZ NOT SCORED");
 
         if(questionNum +1== quizArray.questions.length)
         {
@@ -136,6 +236,28 @@ function EndScreen()
   document.getElementById('answerSection').appendChild(scoreText);
   // TODO: ADD SAVING DATA TO THE DB
 
+  $.getJSON(URL_GetUsers,function(data)
+  {
+    UserObject = data;
+    console.log(UserObject);
+    console.log(UserObject.Users[userNum]);
+
+    UserObject.Users[userNum].quizzes.push({
+        "quizName" : quizArray.title,
+        "score" : score
+    });
+
+    var jsonData = JSON.stringify(UserObject);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        {
+        console.log("SAVED SCORE ");
+        }
+    }
+    xmlHttp.open("GET",  URL_AddUserPrefix + encodeURIComponent(jsonData), true);
+    xmlHttp.send();
+  })
 
   var onsItem= document.createElement('button');
   onsItem.setAttribute('class', "button1");
@@ -144,6 +266,19 @@ function EndScreen()
   onsItem.setAttribute('style',"margin-top:10%");
   onsItem.innerHTML = "BACK TO MENU";
   document.getElementById('answerSection').appendChild(onsItem);
+
+}
+
+function CheckUsername(){
+  for (var i = 0; i < Users.length; i++) {
+    if(Users[i].username == _username)
+    {
+      userNum = i;
+      console.log(Users[i].username + " -NAME EXISTS- " + _username);
+      return false;
+    }
+  }
+  return true;
 }
 
 function ValidateTextbox()
@@ -156,8 +291,12 @@ function ReturnToMenu()
   window.location = "index.html";
 }
 
-function multipleAddAnswer()
+function multipleAddAnswer(answer)
 {
+  console.log("MULTIADD" + answer);
+
+  multiAnswer.push(answer)
+  console.log(multiAnswer);
 }
 
 function Build_Date(){
@@ -181,16 +320,14 @@ function Build_MultipleChoice(){
       onsItem.setAttribute('class', "button1");
       onsItem.setAttribute('id', "choiceButton" + i);
       var thisID = onsItem.id;
-      onsItem.setAttribute('onclick',
-      "multipleAddAnswer();"+
-      "document.getElementById('"+thisID+"').className = 'button2'");
+      onsItem.setAttribute('onclick', "multipleAddAnswer('" + emp + "');" + "document.getElementById('"+thisID+"').className = 'button2'");
        onsItem.innerHTML = emp;
        document.getElementById('answerSection').appendChild(onsItem);
        console.log(document.getElementById(thisID).value);
   });
   var nextbutton= document.createElement('button');
   nextbutton.setAttribute('class', "nextButton");
-  nextbutton.setAttribute('onclick', "CheckAnswer(document.getElementById('choiceButton0').value)");
+  nextbutton.setAttribute('onclick', "CheckAnswer(multiAnswer)");
   nextbutton.innerHTML = "NEXT";
   document.getElementById('answerSection').appendChild(nextbutton);
 }

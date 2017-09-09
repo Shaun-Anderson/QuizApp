@@ -60,8 +60,6 @@ function CheckSignUp()
     return null;
   }
 
-
-
   //Get list of Users and check if the username is currently already in use.
   $.getJSON(URL_GetUsers,function(data)
   {
@@ -71,7 +69,8 @@ function CheckSignUp()
           UserObject = data;
           UserObject.Users.push({
               "username" : _username,
-              "password"  : inputPassword
+              "password"  : inputPassword,
+              "quizzes" : []
           });
 
           CreateNewUser();
@@ -99,15 +98,16 @@ function CheckSignIn()
       //USERNAME EXISTS
           if(CheckPassword())
           {
-
             //PASSWORD EXISTS
             goToMain();
           }
           else {
+            // TODO: display error dialog
             //PASSWORD DOESNT EXIST
           }
     }
     else {
+      // TODO: display error dialog
       //USERNAME DOESNT EXIST
     }
 
@@ -141,6 +141,8 @@ function CheckUsername(){
     {
       userNum = i;
       console.log(Users[i].username + " -NAME EXISTS- " + _username);
+      localStorage.setItem("userNum",userNum);
+      console.log('SET LOCAL SOTRAGE USERNUM: ' + userNum);
       return false;
     }
   }
