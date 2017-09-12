@@ -297,6 +297,8 @@ function multipleAddAnswer(answer)
 
   multiAnswer.push(answer)
   console.log(multiAnswer);
+
+  // TODO: add remove from answer array
 }
 
 function Build_Date(){
