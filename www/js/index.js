@@ -47,9 +47,13 @@ app.initialize();
 LoadQuizzes();
 
 var UserObject = {
-  Users : []
+  username : String,
+  password : String,
+  quizzes : []
 };
 //const URL_GetQuizzes;
+
+var tempScore;
 
 //Load all the quizzes from the json file
 function LoadQuizzes()
@@ -61,18 +65,25 @@ function LoadQuizzes()
              onsItem.setAttribute('modifier', "chevron");
              onsItem.setAttribute('style',"background-color:#FFF09B")
              onsItem.setAttribute('onclick', "goToMain("+i+")");
-             onsItem.innerHTML = onsItem.innerHTML + emp.title;
-             document.getElementById('quizList').appendChild(onsItem);
 
             //Check if the user has already attempted/completed this quiz
              $.getJSON(URL_GetUsers,function(data)
              {
-               console.log(data);
+               UserObject = data.Users[localStorage.getItem("userNum")];
+               console.log(UserObject);
 
-               var userInfo = data.Users[localStorage.getItem("userNum")];
-               console.log(usersInfo);
+               for(i = 0; i < UserObject.quizzes.length; i++)
+               {
 
+                 if(UserObject.quizzes[i].quizName == emp.title)
+                 {
+                   tempScore = UserObject.quizzes[i].score
+                 }
+               }
+               onsItem.innerHTML = onsItem.innerHTML + emp.title + tempScore;
              })
+             document.getElementById('quizList').appendChild(onsItem);
+
       });
 
       console.log('Loaded quizzes for user: ' +  localStorage.getItem("userNum"));

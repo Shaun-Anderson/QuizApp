@@ -238,14 +238,31 @@ function EndScreen()
 
   $.getJSON(URL_GetUsers,function(data)
   {
+    var scoreExists = false;
     UserObject = data;
-    console.log(UserObject);
-    console.log(UserObject.Users[userNum]);
+    console.log(UserObject.Users[userNum].quizzes.length);
 
-    UserObject.Users[userNum].quizzes.push({
-        "quizName" : quizArray.title,
-        "score" : score
-    });
+    for(i = 0; i < UserObject.Users[userNum].quizzes.length; i++)
+    {
+      if(UserObject.Users[userNum].quizzes[i].quizName == quizArray.title)
+      {
+        console.log("Score exists overwiritng");
+
+        UserObject.Users[userNum].quizzes[i] = { "quizName" : quizArray.title, "score" : score }
+      scoreExists = true;
+      }
+    }
+
+
+    if(!scoreExists)
+    {
+      console.log("No score exist pushing new one");
+
+      UserObject.Users[userNum].quizzes.push({
+          "quizName" : quizArray.title,
+          "score" : score
+      });
+    }
 
     var jsonData = JSON.stringify(UserObject);
     var xmlHttp = new XMLHttpRequest();
