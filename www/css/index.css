@@ -143,7 +143,7 @@ input[type="date"]::-webkit-inner-spin-button{
 .nextButton {
     background-color: #00FFC7;
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -156,11 +156,20 @@ input[type="date"]::-webkit-inner-spin-button{
     display: block;
     cursor: pointer;
     outline: none;
-    border-radius: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .nextButton:active {
   background-color: #3e8e41;
+}
+
+#rounded {
+  border-radius: 10px;
+}
+
+.rounded {
+  border-radius: 10px;
 }
 
 #myProgress {

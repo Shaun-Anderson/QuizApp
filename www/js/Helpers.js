@@ -2,6 +2,7 @@
 var maxQuestionNum;
 var questionNum = -1;
 var quizNum = localStorage.getItem("_quizNum");
+var answersCorrect = 0;
 var score = 0;
 var quizArray;
 var question;
@@ -145,7 +146,8 @@ function CheckAnswer(thisAnswer)
             if(answered)
             {
               console.log("CORRECT");
-              score += 1;
+              score += quizArray.questions[questionNum].weighting;
+              answersCorrect += 1;
               if(questionNum +1 == quizArray.questions.length)
               {
                 EndScreen();
@@ -169,7 +171,7 @@ function CheckAnswer(thisAnswer)
             if(thisAnswer == answer)
             {
               console.log("CORRECT");
-              score += 1;
+              answersCorrect += 1;
               if(questionNum +1 == quizArray.questions.length)
               {
                 EndScreen();
@@ -217,7 +219,7 @@ function CheckAnswer(thisAnswer)
   .fail(function(){console.log('error')});
 }
 
-//The end screen of a quiz. Involves the score and a button to return user to menu.
+//Display the endscreen. This screen will show the user thier score if the quiz was one that has a score
 function EndScreen()
 {
   //Fill up progress bar
@@ -226,13 +228,17 @@ function EndScreen()
   var percentBar = document.getElementById('myBar');
   percentBar.style.width = percent + "%";
 
+
+
   //Clear former values
-  question.innerHTML = "";
+  question.innerHTML = '<span style="width: 90%; height: 100%;font-size: 5vh; margin-top: 5%; display: block; color:#DAF7A6"> COMPLETED <br> '+quizArray.title+'</span>';
   document.getElementById('answerSection').innerHTML ="";
   //Set new values
+
+  if(quizArray.score) {
   var scoreText= document.createElement('p');
-  scoreText.setAttribute('style', "width:100%;height:20%;font-size:5vh");
-  scoreText.innerHTML = "<b>COMPLETE</b><br><br><b>SCORE: </b>" + score + "<br>";
+  scoreText.setAttribute('style', "width:100%;height:20%;font-size:4vh; color:#FFFFFF");
+  scoreText.innerHTML = "<b>ANSWERS CORRECT: </b>" + answersCorrect + "/" + quizArray.questions.length+"<br> <b>SCORE: </b>" + score + " / "+quizArray.score+"<br><b>PERCENT: </b> " + (score/quizArray.score*100) + "%";
   document.getElementById('answerSection').appendChild(scoreText);
   // TODO: ADD SAVING DATA TO THE DB
 
@@ -275,6 +281,7 @@ function EndScreen()
     xmlHttp.open("GET",  URL_AddUserPrefix + encodeURIComponent(jsonData), true);
     xmlHttp.send();
   })
+}
 
   var onsItem= document.createElement('button');
   onsItem.setAttribute('class', "button1");
@@ -305,7 +312,7 @@ function ValidateTextbox()
 
 function ReturnToMenu()
 {
-  window.location = "index.html";
+  window.location = "menu.html";
 }
 
 function multipleAddAnswer(answer)
@@ -321,7 +328,7 @@ function multipleAddAnswer(answer)
 function Build_Date(){
   var onsItem= document.createElement('input');
   onsItem.setAttribute('type', "date");
-  onsItem.setAttribute('style', "width:100%;height:100%; background-color:#FFF09B;border: 0 ;text-align:center; font-size:5vh");
+  onsItem.setAttribute('style', "width:100%;height:100%;border: 0 ;text-align:center; font-size:5vh; background-color: rgba(0,0,0,0); color:#FFFFFF");
 
   document.getElementById('answerSection').appendChild(onsItem);
 
@@ -370,7 +377,7 @@ function Build_Textbox(){
   onsItem.setAttribute('ng-model', "text");
   onsItem.setAttribute('pattern', "[0-9]");
   onsItem.setAttribute('id', "textInput");
-  onsItem.setAttribute('style', "style=display: block; width: 100%; height:100%;text-align:center");
+  onsItem.setAttribute('style', "style=display: block; width: 100%; height:100%;text-align:center;font-size: 5vh; color:#FFFFFF");
   if(quizArray.questions[questionNum].help){onsItem.setAttribute('placeholder', quizArray.questions[questionNum].help);} else {onsItem.setAttribute('placeholder', "Text here"); }
   document.getElementById('answerSection').appendChild(onsItem);
 
@@ -383,20 +390,20 @@ function Build_Textbox(){
 function Build_TextArea(){
   var onsItem= document.createElement('textarea');
     onsItem.setAttribute('rows', "10");
-    onsItem.setAttribute('id', "textInput");
+    onsItem.setAttribute('id', "rounded");
     onsItem.setAttribute('style', "style=display: block; width: 90%; height:90%;text-align:center");
     document.getElementById('answerSection').appendChild(onsItem);
 
     var nextbutton= document.createElement('button');
     nextbutton.setAttribute('class', "nextButton");
-    nextbutton.setAttribute('onclick', "CheckAnswer(document.getElementById('textInput').value)");
+    nextbutton.setAttribute('onclick', "CheckAnswer(document.getElementById('rounded').value)");
     nextbutton.innerHTML = "NEXT";
     document.getElementById('answerSection').appendChild(nextbutton);
 }
 function Build_Scale(){
   var output= document.createElement('p');
   output.setAttribute('id', "scaleOutput");
-  output.setAttribute('style', "font-size: 2vh")
+  output.setAttribute('style', "font-size: 5vh; color:#FFFFFF")
   document.getElementById('answerSection').appendChild(output);
 
   //Create slider
@@ -430,7 +437,7 @@ function Build_SlidingOption(){
     amount = i;
 
     emoticon = quizArray.questions[questionNum].optionVisuals[i];
-    html += "<ons-carousel-item id= answer"+i+"><div style='font-size:5vh;text-align: center;vertical-align: middle;'>" +emoticon+ "<br>" + thisText +"</div></ons-carousel-item>";
+    html += "<ons-carousel-item id= answer"+i+" class='rounded' style='background-color:#FFFFFF; vertical-align:middle;'><div style='font-size:5vh;text-align: middle; margin:auto; height:100%; vertical-align:middle'>" +emoticon+ "<br>" + thisText +"</div></ons-carousel-item>";
   });
 
     document.getElementById('answerSection').innerHTML = html;

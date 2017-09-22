@@ -53,6 +53,6 @@
       <true/>
     </dict>
     <key>NSMicrophoneUsageDescription</key>
-    <string></string>
+    <string/>
   </dict>
 </plist>

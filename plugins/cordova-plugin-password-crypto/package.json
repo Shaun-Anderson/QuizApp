@@ -1,0 +1,97 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-password-crypto",
+        "scope": null,
+        "escapedName": "cordova-plugin-password-crypto",
+        "name": "cordova-plugin-password-crypto",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "S:\\Cordova_Projects\\QuizApp\\node_modules"
+    ]
+  ],
+  "_from": "cordova-plugin-password-crypto@latest",
+  "_id": "cordova-plugin-password-crypto@1.0.0",
+  "_inCache": true,
+  "_location": "/cordova-plugin-password-crypto",
+  "_nodeVersion": "0.12.1",
+  "_npmUser": {
+    "name": "timwindsor",
+    "email": "twindsor@blackberry.com"
+  },
+  "_npmVersion": "2.5.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-password-crypto",
+    "scope": null,
+    "escapedName": "cordova-plugin-password-crypto",
+    "name": "cordova-plugin-password-crypto",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-password-crypto/-/cordova-plugin-password-crypto-1.0.0.tgz",
+  "_shasum": "e5db3d14c757b8384b8b1615820421dcf94fe20e",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-password-crypto",
+  "_where": "S:\\Cordova_Projects\\QuizApp\\node_modules",
+  "author": {
+    "name": "Shikhir Singh"
+  },
+  "bugs": {
+    "url": "https://github.com/blackberry/WebWorks-Community-APIs/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-password-crypto",
+    "platforms": [
+      "blackberry10"
+    ]
+  },
+  "dependencies": {},
+  "description": "BlackBerry 10 Community Contributed API to fast encrypt passwords with PBKDF2",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "e5db3d14c757b8384b8b1615820421dcf94fe20e",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-password-crypto/-/cordova-plugin-password-crypto-1.0.0.tgz"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0"
+    }
+  ],
+  "homepage": "https://github.com/blackberry/WebWorks-Community-APIs/tree/master/BB10-Cordova/PasswordCrypto#readme",
+  "keywords": [
+    "blackberry",
+    "crypto",
+    "password",
+    "pbkdf2",
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-blackberry10"
+  ],
+  "license": "Apache 2.0",
+  "maintainers": [
+    {
+      "name": "timwindsor",
+      "email": "twindsor@blackberry.com"
+    }
+  ],
+  "name": "cordova-plugin-password-crypto",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackberry/WebWorks-Community-APIs.git"
+  },
+  "scripts": {},
+  "version": "1.0.0"
+}

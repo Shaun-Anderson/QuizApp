@@ -198,6 +198,14 @@ module.exports = [
         "merges": [
             "navigator.notification"
         ]
+    },
+    {
+        "id": "cordova-plugin-password-crypto.client",
+        "file": "plugins/cordova-plugin-password-crypto/www/client.js",
+        "pluginId": "cordova-plugin-password-crypto",
+        "clobbers": [
+            "community.PasswordCrypto"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -207,7 +215,8 @@ module.exports.metadata =
     "cordova-plugin-file": "4.0.0",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-media": "3.0.1",
-    "cordova-plugin-dialogs": "1.3.3"
+    "cordova-plugin-dialogs": "1.3.3",
+    "cordova-plugin-password-crypto": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

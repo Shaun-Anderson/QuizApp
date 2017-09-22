@@ -16,6 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ var URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
+ var URL_GetQuizzes = 'http://introtoapps.com/quizzes_sample.json';
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -23,19 +27,9 @@ var app = {
     },
 
     // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
-        if( isAndroid() ) {
-     var matches = device.version.match( /[0-9]+(\.[0-9]+)?/i );
-
-     if( matches.length && parseFloat( matches[ 0 ] ) < 4.2 ) {
-         document.body.style.zoom = 1 / window.devicePixelRatio;
-     }
- }
-        // Get the button, and when the user clicks on it, execute myFunction
+        LoadQuizzes();
     },
 
     // Update DOM on a Received Event
@@ -49,47 +43,73 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
-
-  /*  var divGD = ons.GestureDetector(document.querySelector('#my-div'));
-    divGD.on('dragup dragdown', function(event) {
-      console.log('drag Y axis');
-    });*/
-
-
-
 };
 
 app.initialize();
+GetQuizzes();
 
-function isAndroid() {
-    if( device.platform.match( /android/i ) ) {
-        return true;
-    }
+var UserObject = {
+  username : String,
+  password : String,
+  quizzes : []
+};
+//const URL_GetQuizzes;
 
-    return false;
+var tempScore;
+var onsItem;
+
+function GetQuizzes(){
+  //Check if the user has already attempted/completed this quiz
+   $.getJSON(URL_GetUsers,function(data)
+   {
+     UserObject = data.Users[localStorage.getItem("userNum")];
+     LoadQuizzes();
+   })
 }
 
+//Load all the quizzes from the json file
 function LoadQuizzes()
 {
-  $.getJSON('json/quizzes_sample.json',function(data)
+  //ERROR cannot get access to resource.
+  $.getJSON("json/quizzes_sample.json",function(data)
   {
-     //question.innerHTML = "data.Quizzes";
-      $.each(data.Quizzes,function(i,emp){
-        question.innerHTML = question.innerHTML + emp.title;
+        $.each(data.Quizzes,function(i,emp){
+             onsItem = document.createElement('ons-list-item');
+             onsItem.setAttribute('id', "item("+i+")");
+             onsItem.setAttribute('onclick', "goToMain("+i+")");
+
+             for(i = 0; i < UserObject.quizzes.length; i++)
+             {
+               if(UserObject.quizzes[i].quizName == emp.title)
+               {
+                 tempScore = UserObject.quizzes[i].score;
+               }
+             }
+
+             //If the quiz is not scored do not show anything for the right side of the list item.
+             if(emp.score == null)
+             {
+               onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>";
+
+             }
+             else {
+               onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>" + "<div class='right'>" + tempScore + "/" + emp.score +" </div>";
+             }
+             document.getElementById('quizList').appendChild(onsItem);
+
       });
+
+      console.log('Loaded quizzes for user: ' +  localStorage.getItem("userNum"));
+
   }).fail(function(){
     document.getElementById("question").innerHTML = "error";
       console.log('error');
   });
 
-  var onsItem= document.createElement('ons-list-item');
-       onsItem.setAttribute('modifier', "chevron");
-       onsItem.setAttribute('onclick', "functionName()");
-       onsItem.innerHTML = emp.title;
-document.getElementById('quizList').appendChild(onsItem);
 }
-
-function goToMain()
+//Move to main.html and save the quiz number to be used when accessing it later
+function goToMain(pos)
 {
    window.location = "main.html";
+   localStorage.setItem("_quizNum",pos);
 }

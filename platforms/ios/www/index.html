@@ -1,33 +1,6 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -35,15 +8,17 @@
         <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
         <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
         <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <link rel="stylesheet" href="css/menu.css">
 
-        <title>Hello World</title>
+        <title>Menu</title>
     </head>
-    <body>
- <ons-page ng-controller="DynamicCarouselController">
+    <body  bgcolor="#2A212A">
+      <div style="width: 90%; height: 20%; horizontal-align:middle ;vertical-align: middle;display: block; font-size: 8vh; margin:auto; margin-top: 30px; color:#FFFFFF">Quiz App</div>
 
-      <ons-list id="quizList">
-    </ons-list>
-  </ons-page>
+            <div style="text-align: center;width: 100%; height: 60%; horizontal-align:middle ;vertical-align: middle;display: block; font-size: 2vh;" id="inputDiv"></div>
+            <div  align="center" style="text-align: center;width: 100%; height: 20%; vertical-align: middle;display: inline-flex; font-size: 2vh;" id="buttonDiv"></div>
+
+            <script type="text/javascript" src="cordova.js"></script>
+            <script src="js/SignIn.js"></script>
     </body>
 </html>

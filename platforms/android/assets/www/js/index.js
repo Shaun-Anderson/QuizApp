@@ -16,55 +16,78 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
-    // Application Constructor
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    },
+ var URL_GetUsers = 'http://introtoapps.com/datastore.php?action=load&appid=214098128&objectid=users';
+ var URL_GetQuizzes = 'http://introtoapps.com/quizzes_sample.json';
 
-    // deviceready Event Handler
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-        LoadQuizzes();
-    },
+GetQuizzes();
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
+var UserObject = {
+  username : String,
+  password : String,
+  quizzes : []
 };
+//const URL_GetQuizzes;
 
-app.initialize();
-LoadQuizzes();
+var tempScore;
+var onsItem;
 
+function GetQuizzes(){
+  //Check if the user has already attempted/completed this quiz
+   $.getJSON(URL_GetUsers,function(data)
+   {
+     UserObject = data.Users[localStorage.getItem("userNum")];
+     console.log(localStorage.getItem("userNum"));
+     console.log(UserObject);
+
+     LoadQuizzes();
+   })
+}
+
+//Load all the quizzes from the json file
 function LoadQuizzes()
 {
-//introtoapps.com/datastore.php?action=list&appid=214098128
-  $.getJSON('http://introtoapps.com/quizzes_sample.json',function(data)
+  //ERROR cannot get access to resource.
+  $.getJSON("json/quizzes_sample.json",function(data)
   {
-    console.log(data);
-     //question.innerHTML = "data.Quizzes";
 
-
-      $.each(data.Quizzes,function(i,emp){
-        var onsItem= document.createElement('ons-list-item');
-             onsItem.setAttribute('modifier', "chevron");
-             onsItem.setAttribute('style',"background-color:#FFF09B")
+        $.each(data.Quizzes,function(i,emp){
+             onsItem = document.createElement('ons-list-item');
+             onsItem.setAttribute('id', "item("+i+")");
              onsItem.setAttribute('onclick', "goToMain("+i+")");
-             onsItem.innerHTML = onsItem.innerHTML + emp.title;
-      document.getElementById('quizList').appendChild(onsItem);
+
+             for(i = 0; i < UserObject.quizzes.length; i++)
+             {
+               if(UserObject.quizzes[i].quizName == emp.title)
+               {
+                 tempScore = UserObject.quizzes[i].score;
+               }
+             }
+             onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>" + "<div class='right'> Not attempted </div>";
+
+
+             if(UserObject.quizzes[i-1] != null )
+             {
+             onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>" + "<div class='right'>" + tempScore + "/" + emp.score +" </div>";
+              }else {
+             onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>" + "<div class='right'> Not attempted </div>";
+              }
+
+             //If the quiz is not scored do not show anything for the right side of the list item.
+             if(emp.score == null)
+             {
+               onsItem.innerHTML = "<div class='left'>" + emp.title +" </div>";
+             }
+             document.getElementById('quizList').appendChild(onsItem);
+
       });
+
+      console.log('Loaded quizzes for user: ' +  localStorage.getItem("userNum"));
+
   }).fail(function(){
     document.getElementById("question").innerHTML = "error";
       console.log('error');
   });
+
 }
 //Move to main.html and save the quiz number to be used when accessing it later
 function goToMain(pos)
