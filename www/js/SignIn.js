@@ -14,7 +14,10 @@ var UserObject = {
   Users : []
 };
 
-//Create the sign in UI
+/*
+* Creates the sign in UI.
+* Changes the value of the username input field to the last username used to sign in if the user has signed in before.
+*/
 function CreateSignIn(){
   var onsItem= document.createElement('input');
   onsItem.setAttribute('class', "text-input");
@@ -75,7 +78,6 @@ function CheckSignUp()
     if(CheckUsername())
     {
       // var hashedPassword = Sha256.hash(inputPassword, { outFormat: 'hex-w' });
-      //
       //   console.log(hashedPassword);
 
           UserObject = data;
@@ -87,17 +89,20 @@ function CheckSignUp()
 
           CreateNewUser();
           localStorage.setItem("username",_username);
-          goToMain();
+          goToMenu();
     }
 
   }).fail(function(){
       console.log('No data found creating new data');
       CreateNewUser();
-      goToMain();
+      goToMenu();
   });
 }
 
-
+/*
+This function will check if the usernames exists and then will test the password matches if it does it will set the "username" item in local storage to be used as the default text for the username UI element.
+It will then send the user to menu.html
+*/
 function CheckSignIn()
 {
   _username = document.getElementById('usernameInput').value;
@@ -114,29 +119,20 @@ function CheckSignIn()
           {
             //PASSWORD EXISTS
             localStorage.setItem("username",_username);
-            goToMain();
+            goToMenu();
           }
           else {
-            // TODO: display error dialog
             //PASSWORD DOESNT EXIST
-
-
-navigator.notification.alert(
-    'Incorrect password',  // message
-    alertDismissed,         // callback
-    'Oops',            // title
-    'Ok'                  // buttonName
-);
-
+            navigator.notification.alert(
+              'Incorrect password',  // message
+              alertDismissed,         // callback
+              'Oops',            // title
+              'Ok'                  // buttonName
+            );
           }
     }
     else {
-      // TODO: display error dialog
       //USERNAME DOESNT EXIST
-
-      console.log(navigator);
-
-
       navigator.notification.alert(
           'Username does not exist',  // message
           alertDismissed,         // callback
@@ -154,11 +150,15 @@ function alertDismissed() {
   document.getElementById('passwordInput').innerHTML = "";
 }
 
-function goToMain()
+function goToMenu()
 {
    window.location = "menu.html";
 }
 
+
+/*
+* formats the new new Userobject and sends it to the database.
+*/
 function CreateNewUser(){
   var jsonData = JSON.stringify(UserObject);
   var xmlHttp = new XMLHttpRequest();
@@ -173,6 +173,9 @@ function CreateNewUser(){
 }
 
 
+/*
+* Check functions for username and password to see if they match the ones saved on the database
+*/
 function CheckUsername(){
   for (var i = 0; i < Users.length; i++) {
     if(Users[i].username == _username)

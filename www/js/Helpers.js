@@ -142,7 +142,7 @@ function CheckAnswer(thisAnswer)
 
             }
 
-
+            //If question is answer add to both score and answers correct and then nove to either the next question or end screen depending on what question the user is up to.
             if(answered)
             {
               console.log("CORRECT");
